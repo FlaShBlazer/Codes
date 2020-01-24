@@ -1,0 +1,34 @@
+import java.io.*;
+import java.util.*;
+public class PriorityS
+{
+	public void execute(int n,int bt[],int p[]) throws Exception
+	{
+		int at[]=new int(n);
+		Process []process=new Process[n];
+		for(int i=0;i<n;i++)
+		{
+			at[i]=0;
+			process[i]=new Process("P"+(i+1),bt[i],at[i],p[i]);
+		}
+		//Sorting processes according to Arrival Time //No need if you take AT=0 or in ascending order
+		Arrays.sort(process,new SortByPriority());
+		int sum=0;
+		float avgWT=0,avgTAT=0;
+		System.out.println("\n\nPRNo\tBT\tAT\tCT\tTAT\tWT\tPR");
+		System.out.println("===================================================================");
+		for(int i=0;i<n;i++)
+		{
+			sum=process[i].CT=sum+process[i].BT;
+			process[i].TAT=process[i].CT-process[i].AT;
+			process[i].WT=process[i].TAT-process[i].BT;
+			avgWT=avgWT+process[i].WT;
+			avgTAT=avgTAT+process[i].TAT;
+			process[i].display();
+		}
+		avgTAT=(float)avgTAT/n;
+		avgWT=(float)avgWT/n;
+		System.out.println("Average Waiting Time: "+avgWT);
+		System.out.println("Average TAT: "+avgTAT);
+	}
+}
